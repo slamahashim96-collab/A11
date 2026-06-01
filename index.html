@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flight Booking System (Demo)</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f2f2f2;
+    padding:20px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+}
+
+input, select, button{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+}
+
+#paymentBox, #ticketBox, #emailBox{
+    display:none;
+    margin-top:20px;
+    padding:15px;
+    border:1px solid #ccc;
+    border-radius:10px;
+}
+
+#qrcode{
+    display:flex;
+    justify-content:center;
+    margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Flight Booking (Demo System)</h2>
+
+<input id="name" placeholder="Full Name">
+<input id="phone" placeholder="Phone Number">
+<input id="email" placeholder="Email">
+
+<select id="from">
+    <option>Lagos (LOS)</option>
+    <option>Abuja (ABV)</option>
+    <option>Kano (KAN)</option>
+    <option>Port Harcourt (PHC)</option>
+</select>
+
+<select id="to">
+    <option>Abuja (ABV)</option>
+    <option>Lagos (LOS)</option>
+    <option>Kano (KAN)</option>
+    <option>Port Harcourt (PHC)</option>
+</select>
+
+<input type="date" id="date">
+
+<button onclick="goPayment()">Next → Payment</button>
+
+<!-- PAYMENT BOX -->
+<div id="paymentBox">
+<h3>Payment Page (Demo)</h3>
+<p>Amount: ₦25,000</p>
+
+<button onclick="payNow()">Pay Now</button>
+</div>
+
+<!-- EMAIL SIMULATION -->
+<div id="emailBox">
+<h3>Email Status</h3>
+<p id="emailStatus"></p>
+</div>
+
+<!-- TICKET -->
+<div id="ticketBox">
+<h3>Your Ticket</h3>
+
+<p><b>Ticket ID:</b> <span id="tid"></span></p>
+<p><b>Name:</b> <span id="tname"></span></p>
+<p><b>From:</b> <span id="tfrom"></span></p>
+<p><b>To:</b> <span id="tto"></span></p>
+<p><b>Date:</b> <span id="tdate"></span></p>
+
+<div id="qrcode"></div>
+</div>
+
+</div>
+
+<script>
+
+let ticketID = "";
+
+function goPayment(){
+
+if(!name.value || !phone.value || !email.value){
+    alert("Please fill all details");
+    return;
+}
+
+document.getElementById("paymentBox").style.display = "block";
+}
+
+function payNow(){
+
+// simulate payment success
+ticketID = "TKT-" + Math.floor(Math.random()*99999999);
+
+// show email success
+document.getElementById("emailBox").style.display = "block";
+document.getElementById("emailStatus").innerText =
+"Payment Successful! Ticket sent to " + email.value;
+
+// show ticket
+document.getElementById("ticketBox").style.display = "block";
+
+document.getElementById("tid").innerText = ticketID;
+document.getElementById("tname").innerText = name.value;
+document.getElementById("tfrom").innerText = from.value;
+document.getElementById("tto").innerText = to.value;
+document.getElementById("tdate").innerText = date.value;
+
+// QR CODE
+document.getElementById("qrcode").innerHTML = "";
+
+new QRCode(document.getElementById("qrcode"), {
+    text: ticketID,
+    width: 180,
+    height: 180
+});
+
+}
+
+</script>
+
+</body>
+</html>
